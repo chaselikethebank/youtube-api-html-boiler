@@ -1,0 +1,41 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video Player</title>
+</head>
+<body>
+   
+    
+      
+    <div id="video-container">
+        The YouTube video will be embedded here:
+      </div>
+      
+      <script>
+        const apiKey = 'AIzaSyAEePtXyZ16cHL_Hty0xTj5wK8x5mydbfE';
+        const videoUrl = 'https://www.youtube.com/watch?v=3wEzEip35Pw';
+        
+        const urlParams = new URLSearchParams(new URL(videoUrl).search);
+        const videoId = urlParams.get('v');
+        
+        if (videoId) {
+          const apiUrl = 'https://www.googleapis.com/youtube/v3/videos?part=player&id=' + videoId + '&key=' + apiKey;
+          
+          fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+              const playerUrl = data.items[0].player.embedHtml;
+              document.getElementById('video-container').innerHTML = playerUrl;
+            })
+            .catch(error => console.error('Error:', error));
+        } else {
+          console.error('Invalid video URL');
+        }
+      </script>
+</body>
+</html>
+
